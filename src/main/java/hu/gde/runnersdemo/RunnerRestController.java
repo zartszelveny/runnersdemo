@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.print.attribute.standard.PagesPerMinute;
 import java.util.List;
 
 @RestController
@@ -40,8 +41,24 @@ public class RunnerRestController {
         } else {
             return -1.0;
         }
+
     }
 
+    @GetMapping("/{id}/averageage")
+    public double getAverageAge(@PathVariable Long id) {
+        List <RunnerEntity> runner = runnerRepository.findAll();
+        if (runner != null) {
+
+            long totalAge = 0;
+            for (RunnerEntity a : runner) {
+                totalAge= (totalAge+ a.getAge());
+            }
+            double averageAge = (double) totalAge / runner.size();
+            return averageAge;
+        } else {
+            return -1.0;
+        }
+    }
     @GetMapping("")
     public List<RunnerEntity> getAllRunners() {
         return runnerRepository.findAll();
